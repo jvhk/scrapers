@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+    <script type="text/javascript">
+        const cors_anywhere = "https://cors-anywhere.herokuapp.com/";
+        const target = "https://www.denox.com.br/";
+        const url = cors_anywhere+target;
+
+        fetch(url).then(response => response.text())
+            .then(result => scraping(result, "text/html"))
+            .catch(error => console.error('Erro: '+ error));
+
+        function scraping(string_html, content_type){
+            let parser = new DOMParser();
+            let doc = parser.parseFromString(string_html, content_type);
+            let img = doc.querySelector("#header .logo > a img");
+            img.src = target+img.getAttribute("src");
+            
+            document.body.appendChild(doc.querySelector("#header .logo > a img"));
+            console.log(doc.querySelector("#header .logo > a img"));
+        }
+    </script>
+<body>
+    
+</body>
+</html>
